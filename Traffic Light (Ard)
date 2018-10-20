@@ -1,0 +1,29 @@
+int redled = (insert pin #);
+int yellowled = (insert pin #);
+int greenled = (insert pin #);
+
+void setup()
+{
+  pinMode(redled, OUTPUT);
+  pinMode(yellowled, OUTPUT);
+  pinMode(greenled, OUTPUT);
+}
+
+void loop()
+{
+  for(int i=0;i<5;i++)
+  {
+    digitalWrite(greenled, HIGH);
+    delay(1000);
+    digitalWrite(greenled, LOW);
+    delay(1000);
+  }
+    
+  digitalWrite(yellowled, HIGH);
+  delay(5000);
+  digitalWrite(yellowled, LOW);
+
+  digitalWrite(redled, HIGH);
+  delay(10000);
+  digitalWrite(redled, LOW);
+}
