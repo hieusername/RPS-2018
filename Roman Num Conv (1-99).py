@@ -64,6 +64,7 @@ def single_digit():
 
 if int(num1) >= 10:
     double_digit()
-elif int(num1) < 10:
+else:
     single_digit()
+
 
