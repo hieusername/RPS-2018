@@ -1,0 +1,61 @@
+import discord
+from discord.ext import commands
+import asyncio
+from itertools import cycle
+
+TOKEN = "NTAzMzk2ODA1NjMxODAzNDMz.Dq15cw.sQ9yxAKFPlJL62ZehawUSiZu_-c" #TOKEN VAIRES WITH BOT
+
+hdclient = commands.Bot(command_prefix = '.')
+status = ['in bed with Joo.', 'with your feelings.', 'around.']
+
+async def change_status():
+    await hdclient.wait_until_ready()
+    msgs = cycle(status)
+
+    while not hdclient.is_closed:
+        current_status = next(msgs)
+        await hdclient.change_presence(game=discord.Game(name=current_status))
+        await asyncio.sleep(5)
+
+@hdclient.event
+async def on_ready():
+
+    print('I am ready!')
+
+@hdclient.event
+async def on_message(message):
+    author = message.author
+    content = message.content
+    print('{}: {}'.format(author, content))
+    await hdclient.process_commands(message)
+
+#@hdclient.event
+#async def on_message_delete(message):
+#    author = message.author
+#    content = message.content
+#    channel = message.channel
+#    await hdclient.send_message(channel, '{}: {}'.format(author, content))
+#    await hdclient.send_message(channel, '*Nothing ever disappears.*')
+
+@hdclient.command()
+async def defineHieu():
+    await hdclient.say('Awesome fella.')
+
+@hdclient.command()
+async def repeat(*args):
+    output = ''
+    for word in args:
+        output += word
+    await hdclient.say(output)
+@hdclient.command(pass_context=True)
+async def clear(ctx, amount):
+    channel = ctx.message.channel
+    messages = []
+    async for message in hdclient.logs_from(channel,limit=int(3)):
+        messages.append(message)
+    await hdclient.delete_messages(messages)
+    await hdclient.say('I have removed the message(s)')
+
+hdclient.loop.create_task(change_status())
+hdclient.run(TOKEN)
+
