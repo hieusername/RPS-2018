@@ -67,4 +67,17 @@ if int(num1) >= 10:
 else:
     single_digit()
 
+followup = input("Do you want to try it again? y/n: ")
 
+while followup == "y":
+
+    num1 = input("What is your input? ")
+
+    if int(num1) >= 10:
+        double_digit()
+    else:
+        single_digit()
+    followup = input("Again? y/n: ")
+
+else:
+    print("Thank you for using Roman Numeral Converter!")
