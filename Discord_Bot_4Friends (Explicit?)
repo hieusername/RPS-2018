@@ -1,0 +1,111 @@
+import discord
+from discord.ext import commands
+import asyncio
+from itertools import cycle
+
+TOKEN = "NTAzMzk2ODA1NjMxODAzNDMz.Dq15cw.sQ9yxAKFPlJL62ZehawUSiZu_-c" #unique-token
+
+hdclient = commands.Bot(command_prefix = '.')
+status = ['msg1', 'msg2', 'msg3', 'msg4', 'with Python.'] #playing-status
+
+async def change_status():
+    await hdclient.wait_until_ready()
+    msgs = cycle(status)
+
+    while not hdclient.is_closed:
+        current_status = next(msgs)
+        await hdclient.change_presence(game=discord.Game(name=current_status))
+        await asyncio.sleep(5)
+
+@hdclient.event
+async def on_ready():
+
+    print('I am ready!')
+
+@hdclient.event
+async def on_message(message):
+    author = message.author
+    content = message.content
+    print('{}: {}'.format(author, content))
+    await hdclient.process_commands(message)
+
+
+@hdclient.event
+async def on_message(message):
+    channel = message.channel
+    if 'trigger-word' in message.content:
+        print('Keyword found')
+        await hdclient.send_message(channel, 'insert-response')
+
+    if 'trigger-word' in message.content:
+        print('Keyword found')
+        await hdclient.send_message(channel, 'insert-response')
+
+    if 'trigger-word' in message.content:
+        print('Keyword found')
+        await hdclient.send_message(channel, 'insert-response')
+    if 'trigger-word' in message.content:
+        print('Keyword found')
+        await hdclient.send_message(channel, 'insert-response')
+    await hdclient.process_commands(message)
+
+#@hdclient.event
+#async def on_message_delete(message):
+#    author = message.author
+#    content = message.content
+#    channel = message.channel
+#    await hdclient.send_message(channel, '{}: {}'.format(author, content))
+#    await hdclient.send_message(channel, '*Nothing ever disappears.*')
+
+@hdclient.command()
+async def defineHieu():
+    await hdclient.say('Creator of all.')
+
+@hdclient.command()
+async def google():
+    await hdclient.say('https://www.google.ca/')
+
+@hdclient.command()
+async def ms2():
+    await hdclient.say('https://www.reddit.com/r/MapleStory2/')
+
+@hdclient.command()
+async def peter():
+    await hdclient.say('https://tinyurl.com/yahnnlm7')
+
+@hdclient.command()
+async def number():
+    await hdclient.say('www.google.com/number')
+
+@hdclient.command()
+async def weebs():
+    await hdclient.say('https://tinyurl.com/y7zhgjkq')
+
+@hdclient.command()
+async def repeat(*args): #repeats-what-you-say
+    output = ''
+    for word in args:
+        output += word
+    await hdclient.say(output)
+
+@hdclient.command(pass_context=True)
+async def clear(ctx, amount):
+    channel = ctx.message.channel
+    messages = []
+    async for message in hdclient.logs_from(channel, limit=int(3)):
+        messages.append(message)
+    await hdclient.delete_messages(messages)
+    await hdclient.say('I have removed the message(s)')
+
+@hdclient.command(pass_context=True)
+async def entirewipe(ctx, amount):
+    channel = ctx.message.channel
+    messages = []
+    async for message in hdclient.logs_from(channel, limit=int(20)):
+        messages.append(message)
+    await hdclient.delete_messages(messages)
+    await hdclient.say('*Poof*')
+
+hdclient.loop.create_task(change_status())
+hdclient.run(TOKEN)
+
